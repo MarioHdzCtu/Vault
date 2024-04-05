@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from src import services, utils
 
 app = FastAPI()
 
@@ -8,6 +9,7 @@ async def hello():
     return {'msg': 'Hello!'}
 
 
-@app.get('/bye')
-async def bye():
-    return {'msg': 'Bye!'}
+@app.get('/user')
+async def bye(response : Response, user_id: int | None = None):
+    res: utils.Res = services.UserService().get_user(user_id=user_id)
+    return res
