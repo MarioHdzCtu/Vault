@@ -1,1 +1,1 @@
-from .res import Res
+from .user import User

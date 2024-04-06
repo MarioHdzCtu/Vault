@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, Request
 from src import services, utils
 
 app = FastAPI()
@@ -10,6 +10,11 @@ async def hello():
 
 
 @app.get('/user')
-async def bye(response : Response, user_id: int | None = None):
+async def get_user(response : Response, user_id: int | None = None):
     res: utils.Res = services.UserService().get_user(user_id=user_id)
     return res
+
+@app.post('/user/create')
+async def create_user(payload: Request):
+    payload = await payload.json()
+    return services.UserService().create_user(**payload)
